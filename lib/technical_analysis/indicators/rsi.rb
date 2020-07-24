@@ -85,8 +85,11 @@ module TechnicalAnalysis
               current_gain = 0
             end
 
-            avg_gain = (((prev_avg[:gain] * smoothing_period) + current_gain) / period.to_f)
-            avg_loss = (((prev_avg[:loss] * smoothing_period) + current_loss) / period.to_f)
+            #EMA
+            avg_gain = (current_gain - prev_avg[:gain]) * (2.0 / (period + 1.0)) + prev_avg[:gain]
+            avg_loss = (current_loss - prev_avg[:loss]) * (2.0 / (period + 1.0)) + prev_avg[:loss]
+            # avg_gain = (((prev_avg[:gain] * smoothing_period) + current_gain) / period.to_f)
+            # avg_loss = (((prev_avg[:loss] * smoothing_period) + current_loss) / period.to_f)
           end
 
           if avg_loss == 0
